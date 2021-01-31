@@ -2,31 +2,32 @@ package file
 
 import (
 	"os"
-	"reflect"
 	"testing"
 )
 
 func TestRead(t *testing.T) {
-	path := "../../test_data/test_read.txt"
+	path := "../../test_data/read_file.txt"
 	result := Read(path)
-	expect := "read text"
+	expect := "read file\n"
+
 	if result != expect {
 		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
 
 func TestExists(t *testing.T) {
-	path := "../../test_data/test.txt"
+	path := "../../test_data/read_file.txt"
 	result := Exists(path)
 	expect := true
+
 	if result != expect {
 		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
 
 func TestWrite(t *testing.T) {
-	path := "../../test_data/test_write.txt"
-	expect := "write text"
+	path := "../../test_data/write_file.txt"
+	expect := "write file"
 	Write(path, expect)
 	result := Read(path)
 
@@ -36,6 +37,18 @@ func TestWrite(t *testing.T) {
 			t.Fatal("err = \v", err)
 		}
 	}()
+
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
+	}
+}
+
+func TestRemoveFile(t *testing.T) {
+	path := "../../test_data/write_file.txt"
+	Write(path, "test")
+	RemoveFile(path)
+	result := Exists(path)
+	expect := false
 
 	if result != expect {
 		t.Errorf("result = %v, want = %v", result, expect)
@@ -60,35 +73,24 @@ func TestMakeDir(t *testing.T) {
 	}
 }
 
-func TestRemoveFile(t *testing.T) {
-	path := "../../test_data/test_write.txt"
-	data := "text"
-	Write(path, data)
-	RemoveFile(path)
-	result := Exists(path)
-	expect := false
-	if result != expect {
-		t.Errorf("result = %v, want = %v", result, expect)
-	}
-}
-
 func TestRemoveDir(t *testing.T) {
 	path := "../../test_data/tmp"
 	MakeDir(path)
 	RemoveDir(path)
 	result := Exists(path)
 	expect := false
+
 	if result != expect {
 		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
 
 func TestRename(t *testing.T) {
-	path := "../../test_data/test_write.txt"
-	data := "text"
+	oldPath := "../../test_data/old_path.txt"
+	data := "tmp"
 	newPath := "../../test_data/new_path.txt"
-	Write(path, data)
-	Rename(path, newPath)
+	Write(oldPath, data)
+	Rename(oldPath, newPath)
 	result := Exists(newPath)
 	expect := true
 
@@ -104,21 +106,10 @@ func TestRename(t *testing.T) {
 	}
 }
 
-func TestReadDir(t *testing.T) {
-	path := "../../test_data"
-	result := ReadDir(path)
-	expect := []string{"test_read.txt"}
-
-	if !reflect.DeepEqual(result, expect) {
-		t.Errorf("result = %v, want %v", result, expect)
-	}
-}
-
 func TestCopy(t *testing.T) {
-	srcPath := "../../test_data/test_read.txt"
-	destPath := "../../test_data/copy.txt"
+	srcPath := "../../test_data/read_file.txt"
+	destPath := "../../test_data/dest_file.txt"
 	Copy(srcPath, destPath)
-
 	result := Exists(destPath)
 	expect := true
 

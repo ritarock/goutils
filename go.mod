@@ -1,5 +1,3 @@
-module github.com/ritarock/goparts
+module goparts
 
-go 1.14
-
-require github.com/google/uuid v1.1.2
+go 1.15

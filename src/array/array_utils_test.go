@@ -6,76 +6,61 @@ import (
 )
 
 func TestToFloat64(t *testing.T) {
-	intArr := []int{1, 2, 3}
-	floatArr := []float64{1, 2, 3}
-	intResult := ToFloat64(intArr)
-	floatResult := ToFloat64(floatArr)
+	intArray := []int{1, 2, 3}
+	result := ToFloat64(intArray)
 	expect := []float64{1, 2, 3}
 
-	if !reflect.DeepEqual(intResult, expect) {
-		t.Errorf("result = %v, want %v", intResult, expect)
-	}
-	if !reflect.DeepEqual(floatResult, expect) {
-		t.Errorf("result = %v, want %v", floatResult, expect)
+	if !reflect.DeepEqual(result, expect) {
+		t.Errorf("reult = %v, want %v", result, expect)
 	}
 }
 
-func TestSumArray(t *testing.T) {
-	intArr := []int{1, 2, 3}
-	floatArr := []float64{1, 2, 3}
-	intResult := SumArray(intArr)
-	floatResult := SumArray(floatArr)
-	var expect float64 = 6
-
-	if intResult != expect {
-		t.Errorf("intResult = %v, want = %v", intResult, expect)
-	}
-	if floatResult != expect {
-		t.Errorf("floatResult = %v, want = %v", floatResult, expect)
-	}
-}
-
-func TestMaxArray(t *testing.T) {
-	intArr := []int{1, 2, 3}
-	floatArr := []float64{1, 2, 3}
-	intResult := MaxArray(intArr)
-	floatResult := MaxArray(floatArr)
+func TestMaxOfArray(t *testing.T) {
+	array := []int{1, 2, 3}
+	result := MaxOfArray(ToFloat64(array))
 	var expect float64 = 3
 
-	if intResult != expect {
-		t.Errorf("intResult = %v, want = %v", intResult, expect)
-	}
-	if floatResult != expect {
-		t.Errorf("floatResult = %v, want = %v", floatResult, expect)
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
 
-func TestMinArray(t *testing.T) {
-	intArr := []int{1, 2, 3}
-	floatArr := []float64{1, 2, 3}
-	intResult := MinArray(intArr)
-	floatResult := MinArray(floatArr)
+func TestMinOfArray(t *testing.T) {
+	array := []int{1, 2, 3}
+	result := MinOfArray(ToFloat64(array))
 	var expect float64 = 1
 
-	if intResult != expect {
-		t.Errorf("intResult = %v, want = %v", intResult, expect)
-	}
-	if floatResult != expect {
-		t.Errorf("floatResult = %v, want = %v", floatResult, expect)
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
 
-func TestAvarageArray(t *testing.T) {
-	intArr := []int{1, 2, 3}
-	floatArr := []float64{1, 2, 3}
-	intResult := AvarageArray(intArr)
-	floatResult := AvarageArray(floatArr)
+func TestSumOfArray(t *testing.T) {
+	array := []int{1, 2, 3}
+	result := SumOfArray(ToFloat64(array))
+	var expect float64 = 6
+
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
+	}
+}
+
+func TestAvarageOfArray(t *testing.T) {
+	array := []int{1, 2, 3}
+	result := AvarageOfArray(ToFloat64(array))
 	var expect float64 = 2
 
-	if intResult != expect {
-		t.Errorf("intResult = %v, want = %v", intResult, expect)
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
 	}
-	if floatResult != expect {
-		t.Errorf("floatResult = %v, want = %v", floatResult, expect)
+}
+
+func TestSortArray(t *testing.T) {
+	array := []int{3, 1, 2}
+	result := SortArray(ToFloat64(array))
+	expect := []float64{1, 2, 3}
+
+	if !reflect.DeepEqual(result, expect) {
+		t.Errorf("reult = %v, want %v", result, expect)
 	}
 }

@@ -1,13 +1,15 @@
 package array
 
-func ToFloat64(arr interface{}) []float64 {
+import "sort"
+
+func ToFloat64(array interface{}) []float64 {
 	var result []float64
 
-	switch arr.(type) {
+	switch array.(type) {
 	case []float64:
-		result = arr.([]float64)
+		result = array.([]float64)
 	case []int:
-		for _, v := range arr.([]int) {
+		for _, v := range array.([]int) {
 			result = append(result, float64(v))
 		}
 	default:
@@ -16,20 +18,9 @@ func ToFloat64(arr interface{}) []float64 {
 	return result
 }
 
-func SumArray(arr interface{}) float64 {
-	var sum float64 = 0
-	newArr := ToFloat64(arr)
-
-	for _, v := range newArr {
-		sum += v
-	}
-	return sum
-}
-
-func MaxArray(arr interface{}) float64 {
-	newArr := ToFloat64(arr)
-	max := newArr[0]
-	for _, v := range newArr {
+func MaxOfArray(array []float64) float64 {
+	max := array[0]
+	for _, v := range array {
 		if max < v {
 			max = v
 		}
@@ -37,10 +28,9 @@ func MaxArray(arr interface{}) float64 {
 	return max
 }
 
-func MinArray(arr interface{}) float64 {
-	newArr := ToFloat64(arr)
-	min := newArr[0]
-	for _, v := range newArr {
+func MinOfArray(array []float64) float64 {
+	min := array[0]
+	for _, v := range array {
 		if v < min {
 			min = v
 		}
@@ -48,8 +38,20 @@ func MinArray(arr interface{}) float64 {
 	return min
 }
 
-func AvarageArray(arr interface{}) float64 {
-	newArr := ToFloat64(arr)
-	avarage := SumArray(newArr) / float64(len(newArr))
-	return avarage
+func SumOfArray(array []float64) float64 {
+	var sum float64 = 0
+	for _, v := range array {
+		sum += v
+	}
+	return sum
+}
+
+func AvarageOfArray(array []float64) float64 {
+	sumOfArray := SumOfArray(array)
+	return sumOfArray / float64(len(array))
+}
+
+func SortArray(array []float64) []float64 {
+	sort.Sort(sort.Float64Slice(array))
+	return array
 }

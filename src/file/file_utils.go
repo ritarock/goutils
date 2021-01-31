@@ -35,15 +35,15 @@ func Write(path, data string) {
 	f.Write(([]byte)(data))
 }
 
-func MakeDir(path string) {
-	err := os.Mkdir(path, 0777)
+func RemoveFile(path string) {
+	err := os.RemoveAll(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func RemoveFile(path string) {
-	err := os.RemoveAll(path)
+func MakeDir(path string) {
+	err := os.Mkdir(path, 0777)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,18 +58,6 @@ func Rename(oldPath, newPath string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func ReadDir(path string) []string {
-	var result []string
-	fi, err := ioutil.ReadDir(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, v := range fi {
-		result = append(result, v.Name())
-	}
-	return result
 }
 
 func Copy(srcPath, destPath string) {
