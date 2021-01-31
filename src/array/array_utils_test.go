@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+var array []int = []int{1, 2, 3}
+
 func TestToFloat64(t *testing.T) {
 	intArray := []int{1, 2, 3}
 	result := ToFloat64(intArray)
@@ -16,7 +18,6 @@ func TestToFloat64(t *testing.T) {
 }
 
 func TestMaxOfArray(t *testing.T) {
-	array := []int{1, 2, 3}
 	result := MaxOfArray(ToFloat64(array))
 	var expect float64 = 3
 
@@ -26,7 +27,6 @@ func TestMaxOfArray(t *testing.T) {
 }
 
 func TestMinOfArray(t *testing.T) {
-	array := []int{1, 2, 3}
 	result := MinOfArray(ToFloat64(array))
 	var expect float64 = 1
 
@@ -36,7 +36,6 @@ func TestMinOfArray(t *testing.T) {
 }
 
 func TestSumOfArray(t *testing.T) {
-	array := []int{1, 2, 3}
 	result := SumOfArray(ToFloat64(array))
 	var expect float64 = 6
 
@@ -46,7 +45,6 @@ func TestSumOfArray(t *testing.T) {
 }
 
 func TestAvarageOfArray(t *testing.T) {
-	array := []int{1, 2, 3}
 	result := AvarageOfArray(ToFloat64(array))
 	var expect float64 = 2
 
@@ -56,9 +54,9 @@ func TestAvarageOfArray(t *testing.T) {
 }
 
 func TestSortArray(t *testing.T) {
-	array := []int{3, 1, 2}
+	array := []int{3, 1, 2, 10, 22}
 	result := SortArray(ToFloat64(array))
-	expect := []float64{1, 2, 3}
+	expect := []float64{1, 2, 3, 10, 22}
 
 	if !reflect.DeepEqual(result, expect) {
 		t.Errorf("reult = %v, want %v", result, expect)
