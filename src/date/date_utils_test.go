@@ -45,3 +45,13 @@ func TestTimeSpan(t *testing.T) {
 		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
+
+func TestToYYYY_MM_DD(t *testing.T) {
+	timeNow := time.Now()
+	result := len(ToYYYY_MM_DD(timeNow))
+	expect := 10
+
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
+	}
+}
