@@ -124,3 +124,13 @@ func TestCopy(t *testing.T) {
 		t.Errorf("result = %v, want = %v", result, expect)
 	}
 }
+
+func TestReadLines(t *testing.T) {
+	path := "../../test_data/read_file.txt"
+	result := ReadLines(path)
+	expect := "read file"
+
+	if result != expect {
+		t.Errorf("result = %v, want = %v", result, expect)
+	}
+}

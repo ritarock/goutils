@@ -1,6 +1,7 @@
 package file
 
 import (
+	"bufio"
 	"io/ioutil"
 	"log"
 	"os"
@@ -65,4 +66,21 @@ func Copy(srcPath, destPath string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func ReadLines(path string) string {
+	var result string
+	f, err := os.Open(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	s := bufio.NewScanner(f)
+
+	for s.Scan() {
+		result = s.Text()
+	}
+	if s.Err() != nil {
+		log.Fatal(s.Err())
+	}
+	return result
 }
