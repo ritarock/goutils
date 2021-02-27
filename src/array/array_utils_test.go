@@ -62,3 +62,13 @@ func TestSortArray(t *testing.T) {
 		t.Errorf("reult = %v, want %v", result, expect)
 	}
 }
+
+func TestReverseSortArray(t *testing.T) {
+	array := []int{3, 1, 2, 10, 22}
+	result := ReverseSortArray(ToFloat64(array))
+	expect := []float64{22, 10, 3, 2, 1}
+
+	if !reflect.DeepEqual(result, expect) {
+		t.Errorf("reult = %v, want %v", result, expect)
+	}
+}

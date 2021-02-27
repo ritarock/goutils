@@ -55,3 +55,8 @@ func SortArray(array []float64) []float64 {
 	sort.Sort(sort.Float64Slice(array))
 	return array
 }
+
+func ReverseSortArray(array []float64) []float64 {
+	sort.Sort(sort.Reverse(sort.Float64Slice(array)))
+	return array
+}
