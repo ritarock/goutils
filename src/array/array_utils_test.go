@@ -72,3 +72,13 @@ func TestReverseSortArray(t *testing.T) {
 		t.Errorf("reult = %v, want %v", result, expect)
 	}
 }
+
+func TestUniqueArray(t *testing.T) {
+	array := []int{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5}
+	result := UniqueArray(ToFloat64(array))
+	expect := []float64{1, 2, 3, 4, 5}
+
+	if !reflect.DeepEqual(result, expect) {
+		t.Errorf("result = %v, want %v", result, expect)
+	}
+}

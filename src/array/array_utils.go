@@ -60,3 +60,17 @@ func ReverseSortArray(array []float64) []float64 {
 	sort.Sort(sort.Reverse(sort.Float64Slice(array)))
 	return array
 }
+
+func UniqueArray(array []float64) []float64 {
+	m := make(map[float64]struct{})
+	newList := make([]float64, 0)
+
+	for _, v := range array {
+		if _, ok := m[v]; !ok {
+			m[v] = struct{}{}
+			newList = append(newList, v)
+		}
+	}
+
+	return newList
+}
