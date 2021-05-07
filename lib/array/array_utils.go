@@ -118,49 +118,106 @@ func AvarageOfArray(array interface{}) interface{} {
 	return avarage
 }
 
-func UnionArray(array1, array2 interface{}) interface{} {
+func UnionArray(array ...interface{}) interface{} {
 	var unionArray interface{}
 
-	switch array1.(type) {
+	switch array[0].(type) {
 	case []int:
-		for _, v := range array2.([]int) {
-			array1 = append(array1.([]int), v)
+		tmp := []int{}
+		for _, v := range array {
+			for _, v2 := range v.([]int) {
+				tmp = append(tmp, v2)
+			}
 		}
-		unionArray = UniqueArray(array1)
+		unionArray = UniqueArray(tmp)
 	case []float64:
-		for _, v := range array2.([]float64) {
-			array1 = append(array1.([]float64), v)
+		tmp := []float64{}
+		for _, v := range array {
+			for _, v2 := range v.([]float64) {
+				tmp = append(tmp, v2)
+			}
 		}
-		unionArray = UniqueArray(array1)
+		unionArray = UniqueArray(tmp)
 	}
 
 	return unionArray
 }
 
-func IntersectArray(array1, array2 interface{}) interface{} {
+func IntersectArray(array ...interface{}) interface{} {
 	var intersectArray interface{}
 
-	switch array1.(type) {
+	switch array[0].(type) {
 	case []int:
 		tmp := []int{}
-		for _, v := range array1.([]int) {
-			for _, v2 := range array2.([]int) {
-				if v == v2 {
-					tmp = append(tmp, v)
+		tmp2 := []int{}
+		if len(array) == 2 {
+			for _, v := range array[0].([]int) {
+				for _, v2 := range array[1].([]int) {
+					if v == v2 {
+						tmp2 = append(tmp2, v)
+					}
 				}
 			}
+			intersectArray = tmp2
+		} else {
+			for i := 0; i < len(array)-2; i++ {
+				func(array1, array2 []int) {
+					for _, v := range array1 {
+						for _, v2 := range array2 {
+							if v == v2 {
+								tmp = append(tmp, v)
+							}
+						}
+					}
+				}(array[0].([]int), array[1].([]int))
+				func(array1, array2 []int) {
+					for _, v := range array1 {
+						for _, v2 := range array2 {
+							if v == v2 {
+								tmp2 = append(tmp2, v)
+							}
+						}
+					}
+				}(tmp, array[i+2].([]int))
+				intersectArray = tmp2
+			}
 		}
-		intersectArray = tmp
+
 	case []float64:
 		tmp := []float64{}
-		for _, v := range array1.([]float64) {
-			for _, v2 := range array2.([]float64) {
-				if v == v2 {
-					tmp = append(tmp, v)
+		tmp2 := []float64{}
+		if len(array) == 2 {
+			for _, v := range array[0].([]float64) {
+				for _, v2 := range array[1].([]float64) {
+					if v == v2 {
+						tmp2 = append(tmp2, v)
+					}
 				}
 			}
+			intersectArray = tmp2
+		} else {
+			for i := 0; i < len(array)-2; i++ {
+				func(array1, array2 []float64) {
+					for _, v := range array1 {
+						for _, v2 := range array2 {
+							if v == v2 {
+								tmp = append(tmp, v)
+							}
+						}
+					}
+				}(array[0].([]float64), array[1].([]float64))
+				func(array1, array2 []float64) {
+					for _, v := range array1 {
+						for _, v2 := range array2 {
+							if v == v2 {
+								tmp2 = append(tmp2, v)
+							}
+						}
+					}
+				}(tmp, array[i+2].([]float64))
+				intersectArray = tmp2
+			}
 		}
-		intersectArray = tmp
 	}
 
 	return intersectArray
