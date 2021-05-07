@@ -1,6 +1,8 @@
 package array
 
-import "sort"
+import (
+	"sort"
+)
 
 func SortArray(array interface{}) interface{} {
 	switch array.(type) {
@@ -114,4 +116,52 @@ func AvarageOfArray(array interface{}) interface{} {
 	}
 
 	return avarage
+}
+
+func UnionArray(array1, array2 interface{}) interface{} {
+	var unionArray interface{}
+
+	switch array1.(type) {
+	case []int:
+		for _, v := range array2.([]int) {
+			array1 = append(array1.([]int), v)
+		}
+		unionArray = UniqueArray(array1)
+	case []float64:
+		for _, v := range array2.([]float64) {
+			array1 = append(array1.([]float64), v)
+		}
+		unionArray = UniqueArray(array1)
+	}
+
+	return unionArray
+}
+
+func IntersectArray(array1, array2 interface{}) interface{} {
+	var intersectArray interface{}
+
+	switch array1.(type) {
+	case []int:
+		tmp := []int{}
+		for _, v := range array1.([]int) {
+			for _, v2 := range array2.([]int) {
+				if v == v2 {
+					tmp = append(tmp, v)
+				}
+			}
+		}
+		intersectArray = tmp
+	case []float64:
+		tmp := []float64{}
+		for _, v := range array1.([]float64) {
+			for _, v2 := range array2.([]float64) {
+				if v == v2 {
+					tmp = append(tmp, v)
+				}
+			}
+		}
+		intersectArray = tmp
+	}
+
+	return intersectArray
 }

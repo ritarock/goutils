@@ -207,3 +207,67 @@ func TestAvarageOfArray(t *testing.T) {
 		})
 	}
 }
+
+func TestUnionArray(t *testing.T) {
+	type args struct {
+		array1 interface{}
+		array2 interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			name: "int array",
+			args: args{
+				array1: []int{1, 2, 3, 4, 5},
+				array2: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			},
+			want: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+		},
+		{
+			name: "float array",
+			args: args{
+				array1: []int{1, 2, 3, 4, 5},
+				array2: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			},
+			want: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := UnionArray(tt.args.array1, tt.args.array2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UnionArray() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestIntersectArray(t *testing.T) {
+	type args struct {
+		array1 interface{}
+		array2 interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			name: "int array",
+			args: args{
+				array1: []int{1, 2, 3, 4, 5},
+				array2: []int{1, 2, 3},
+			},
+			want: []int{1, 2, 3},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IntersectArray(tt.args.array1, tt.args.array2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("IntersectArray() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
