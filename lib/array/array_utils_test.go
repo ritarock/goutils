@@ -218,11 +218,11 @@ func TestUnionArray(t *testing.T) {
 		want interface{}
 	}{
 		{
-			name: "int array",
+			name: "int array pattern1",
 			args: args{
 				array: []interface{}{
-					[]int{1, 2, 3, 4, 5},
 					[]int{1, 2, 3},
+					[]int{1, 2, 3, 4, 5},
 				},
 			},
 			want: []int{1, 2, 3, 4, 5},
@@ -231,19 +231,20 @@ func TestUnionArray(t *testing.T) {
 			name: "int array pattern2",
 			args: args{
 				array: []interface{}{
-					[]int{1, 2, 3, 4, 5},
 					[]int{1, 2, 3},
-					[]int{6, 7, 8, 9, 10},
+					[]int{1, 2, 3, 4, 5},
+					[]int{6, 7},
+					[]int{8},
 				},
 			},
-			want: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			want: []int{1, 2, 3, 4, 5, 6, 7, 8},
 		},
 		{
 			name: "float array",
 			args: args{
 				array: []interface{}{
-					[]float64{1, 2, 3, 4, 5},
 					[]float64{1, 2, 3},
+					[]float64{1, 2, 3, 4, 5},
 				},
 			},
 			want: []float64{1, 2, 3, 4, 5},
@@ -268,11 +269,11 @@ func TestIntersectArray(t *testing.T) {
 		want interface{}
 	}{
 		{
-			name: "int array",
+			name: "int array pattern1",
 			args: args{
 				array: []interface{}{
-					[]int{1, 2, 3, 4, 5},
 					[]int{1, 2, 3},
+					[]int{1, 2, 3, 4, 5},
 				},
 			},
 			want: []int{1, 2, 3},
@@ -281,9 +282,10 @@ func TestIntersectArray(t *testing.T) {
 			name: "int array pattern2",
 			args: args{
 				array: []interface{}{
-					[]int{1, 2, 3, 4, 5},
 					[]int{1, 2, 3},
-					[]int{3, 6},
+					[]int{1, 2, 3, 4, 5},
+					[]int{3, 4},
+					[]int{3},
 				},
 			},
 			want: []int{3},
@@ -292,8 +294,8 @@ func TestIntersectArray(t *testing.T) {
 			name: "float array",
 			args: args{
 				array: []interface{}{
-					[]float64{1, 2, 3, 4, 5},
 					[]float64{1, 2, 3},
+					[]float64{1, 2, 3, 4, 5},
 				},
 			},
 			want: []float64{1, 2, 3},

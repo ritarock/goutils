@@ -123,24 +123,34 @@ func UnionArray(array ...interface{}) interface{} {
 
 	switch array[0].(type) {
 	case []int:
+		m := make(map[int]struct{})
+		for _, arr := range array {
+			for _, v := range arr.([]int) {
+				m[v] = struct{}{}
+			}
+		}
 		tmp := []int{}
-		for _, v := range array {
-			for _, v2 := range v.([]int) {
-				tmp = append(tmp, v2)
-			}
+		for k := range m {
+			tmp = append(tmp, k)
 		}
-		unionArray = UniqueArray(tmp)
+		unionArray = tmp
+
 	case []float64:
-		tmp := []float64{}
-		for _, v := range array {
-			for _, v2 := range v.([]float64) {
-				tmp = append(tmp, v2)
+		m := make(map[float64]struct{})
+		for _, arr := range array {
+			for _, v := range arr.([]float64) {
+				m[v] = struct{}{}
 			}
 		}
-		unionArray = UniqueArray(tmp)
+
+		tmp := []float64{}
+		for k := range m {
+			tmp = append(tmp, k)
+		}
+		unionArray = tmp
 	}
 
-	return unionArray
+	return SortArray(unionArray)
 }
 
 func IntersectArray(array ...interface{}) interface{} {
@@ -148,77 +158,82 @@ func IntersectArray(array ...interface{}) interface{} {
 
 	switch array[0].(type) {
 	case []int:
-		tmp := []int{}
-		tmp2 := []int{}
-		if len(array) == 2 {
+		switch length := len(array); length {
+		case 1:
+			intersectArray = array[0].([]int)
+		case 2:
+			tmp := []int{}
+			m := make(map[int]struct{})
 			for _, v := range array[0].([]int) {
-				for _, v2 := range array[1].([]int) {
-					if v == v2 {
-						tmp2 = append(tmp2, v)
-					}
+				m[v] = struct{}{}
+			}
+			for _, v := range array[1].([]int) {
+				if _, ok := m[v]; !ok {
+					continue
 				}
+				tmp = append(tmp, v)
 			}
-			intersectArray = tmp2
-		} else {
+			intersectArray = tmp
+		default:
+			tmp := []int{}
+			firstArr := IntersectArray(array[0], array[1])
+
 			for i := 0; i < len(array)-2; i++ {
-				func(array1, array2 []int) {
-					for _, v := range array1 {
-						for _, v2 := range array2 {
-							if v == v2 {
-								tmp = append(tmp, v)
-							}
-						}
+				func(arr1, arr2 []int) {
+					m := make(map[int]struct{})
+					for _, v := range arr1 {
+						m[v] = struct{}{}
 					}
-				}(array[0].([]int), array[1].([]int))
-				func(array1, array2 []int) {
-					for _, v := range array1 {
-						for _, v2 := range array2 {
-							if v == v2 {
-								tmp2 = append(tmp2, v)
-							}
+					for _, v := range arr2 {
+						if _, ok := m[v]; !ok {
+							continue
 						}
+						tmp = append(tmp, v)
 					}
-				}(tmp, array[i+2].([]int))
-				intersectArray = tmp2
+				}(firstArr.([]int), array[i+2].([]int))
 			}
+			intersectArray = UniqueArray(tmp)
 		}
 
 	case []float64:
-		tmp := []float64{}
-		tmp2 := []float64{}
-		if len(array) == 2 {
+		switch length := len(array); length {
+		case 1:
+			intersectArray = array[0].([]float64)
+		case 2:
+			tmp := []float64{}
+			m := make(map[float64]struct{})
 			for _, v := range array[0].([]float64) {
-				for _, v2 := range array[1].([]float64) {
-					if v == v2 {
-						tmp2 = append(tmp2, v)
-					}
+				m[v] = struct{}{}
+			}
+			for _, v := range array[1].([]float64) {
+				if _, ok := m[v]; !ok {
+					continue
 				}
+				tmp = append(tmp, v)
 			}
-			intersectArray = tmp2
-		} else {
+			intersectArray = tmp
+		default:
+			tmp := []float64{}
+			firstArr := IntersectArray(array[0], array[1])
+
 			for i := 0; i < len(array)-2; i++ {
-				func(array1, array2 []float64) {
-					for _, v := range array1 {
-						for _, v2 := range array2 {
-							if v == v2 {
-								tmp = append(tmp, v)
-							}
-						}
+				func(arr1, arr2 []float64) {
+					m := make(map[float64]struct{})
+					for _, v := range arr1 {
+						m[v] = struct{}{}
 					}
-				}(array[0].([]float64), array[1].([]float64))
-				func(array1, array2 []float64) {
-					for _, v := range array1 {
-						for _, v2 := range array2 {
-							if v == v2 {
-								tmp2 = append(tmp2, v)
-							}
+					for _, v := range arr2 {
+						if _, ok := m[v]; !ok {
+							continue
 						}
+						tmp = append(tmp, v)
 					}
-				}(tmp, array[i+2].([]float64))
-				intersectArray = tmp2
+				}(firstArr.([]float64), array[i+2].([]float64))
 			}
+
+			intersectArray = UniqueArray(tmp)
 		}
 	}
 
-	return intersectArray
+	return SortArray(intersectArray)
 }
