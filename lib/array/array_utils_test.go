@@ -309,3 +309,39 @@ func TestIntersectArray(t *testing.T) {
 		})
 	}
 }
+
+func TestDifferenceArray(t *testing.T) {
+	type args struct {
+		array1 interface{}
+		array2 interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			name: "int array pattern1",
+			args: args{
+				array1: []int{1, 2, 3},
+				array2: []int{2, 3},
+			},
+			want: []int{1},
+		},
+		{
+			name: "float array",
+			args: args{
+				array1: []float64{1, 2, 3},
+				array2: []float64{2, 3},
+			},
+			want: []float64{1},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := DifferenceArray(tt.args.array1, tt.args.array2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DifferenceArray() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

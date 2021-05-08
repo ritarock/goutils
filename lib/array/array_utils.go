@@ -237,3 +237,41 @@ func IntersectArray(array ...interface{}) interface{} {
 
 	return SortArray(intersectArray)
 }
+
+func DifferenceArray(array1, array2 interface{}) interface{} {
+	var differenceArray interface{}
+
+	switch array1.(type) {
+	case []int:
+		m := make(map[int]struct{})
+		for _, v := range array2.([]int) {
+			m[v] = struct{}{}
+		}
+
+		tmp := []int{}
+		for _, v := range array1.([]int) {
+			if _, ok := m[v]; ok {
+				continue
+			}
+			tmp = append(tmp, v)
+		}
+		differenceArray = tmp
+	case []float64:
+		m := make(map[float64]struct{})
+		for _, v := range array2.([]float64) {
+			m[v] = struct{}{}
+		}
+
+		tmp := []float64{}
+		for _, v := range array1.([]float64) {
+			if _, ok := m[v]; ok {
+				continue
+			}
+			tmp = append(tmp, v)
+		}
+		differenceArray = tmp
+
+	}
+
+	return differenceArray
+}
