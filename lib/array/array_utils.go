@@ -2,6 +2,8 @@ package array
 
 import (
 	"sort"
+
+	"github.com/golang-collections/collections/set"
 )
 
 func SortArray(array interface{}) interface{} {
@@ -123,31 +125,39 @@ func UnionArray(array ...interface{}) interface{} {
 
 	switch array[0].(type) {
 	case []int:
-		m := make(map[int]struct{})
-		for _, arr := range array {
+		aSet := set.New()
+		bSet := set.New()
+		for i, arr := range array {
+			if i == 0 {
+				for _, v := range arr.([]int) {
+					aSet.Insert(v)
+				}
+			}
 			for _, v := range arr.([]int) {
-				m[v] = struct{}{}
+				bSet.Insert(v)
 			}
 		}
-		tmp := []int{}
-		for k := range m {
-			tmp = append(tmp, k)
-		}
-		unionArray = tmp
-
+		tmp := aSet.Union(bSet)
+		tmp2 := []int{}
+		tmp.Do(func(i interface{}) { tmp2 = append(tmp2, i.(int)) })
+		unionArray = tmp2
 	case []float64:
-		m := make(map[float64]struct{})
-		for _, arr := range array {
+		aSet := set.New()
+		bSet := set.New()
+		for i, arr := range array {
+			if i == 0 {
+				for _, v := range arr.([]float64) {
+					aSet.Insert(v)
+				}
+			}
 			for _, v := range arr.([]float64) {
-				m[v] = struct{}{}
+				bSet.Insert(v)
 			}
 		}
-
-		tmp := []float64{}
-		for k := range m {
-			tmp = append(tmp, k)
-		}
-		unionArray = tmp
+		tmp := aSet.Union(bSet)
+		tmp2 := []float64{}
+		tmp.Do(func(i interface{}) { tmp2 = append(tmp2, i.(float64)) })
+		unionArray = tmp2
 	}
 
 	return SortArray(unionArray)
@@ -159,37 +169,39 @@ func IntersectArray(array ...interface{}) interface{} {
 	switch array[0].(type) {
 	case []int:
 		switch length := len(array); length {
-		case 1:
-			intersectArray = array[0].([]int)
 		case 2:
-			tmp := []int{}
-			m := make(map[int]struct{})
-			for _, v := range array[0].([]int) {
-				m[v] = struct{}{}
-			}
-			for _, v := range array[1].([]int) {
-				if _, ok := m[v]; !ok {
-					continue
+			aSet := set.New()
+			bSet := set.New()
+			for i, arr := range array {
+				if i == 0 {
+					for _, v := range arr.([]int) {
+						aSet.Insert(v)
+					}
+					for _, v := range arr.([]int) {
+						bSet.Insert(v)
+					}
 				}
-				tmp = append(tmp, v)
 			}
-			intersectArray = tmp
-		default:
-			tmp := []int{}
-			firstArr := IntersectArray(array[0], array[1])
+			tmp := aSet.Intersection(bSet)
+			tmp2 := []int{}
+			tmp.Do(func(i interface{}) { tmp2 = append(tmp2, i.(int)) })
+			intersectArray = tmp2
 
+		default:
+			firstArr := IntersectArray(array[0], array[1])
+			tmp := []int{}
 			for i := 0; i < len(array)-2; i++ {
 				func(arr1, arr2 []int) {
-					m := make(map[int]struct{})
+					aSet := set.New()
+					bSet := set.New()
 					for _, v := range arr1 {
-						m[v] = struct{}{}
+						aSet.Insert(v)
 					}
 					for _, v := range arr2 {
-						if _, ok := m[v]; !ok {
-							continue
-						}
-						tmp = append(tmp, v)
+						bSet.Insert(v)
 					}
+					fTmp := aSet.Intersection(bSet)
+					fTmp.Do(func(i interface{}) { tmp = append(tmp, i.(int)) })
 				}(firstArr.([]int), array[i+2].([]int))
 			}
 			intersectArray = UniqueArray(tmp)
@@ -197,40 +209,41 @@ func IntersectArray(array ...interface{}) interface{} {
 
 	case []float64:
 		switch length := len(array); length {
-		case 1:
-			intersectArray = array[0].([]float64)
 		case 2:
-			tmp := []float64{}
-			m := make(map[float64]struct{})
-			for _, v := range array[0].([]float64) {
-				m[v] = struct{}{}
-			}
-			for _, v := range array[1].([]float64) {
-				if _, ok := m[v]; !ok {
-					continue
+			aSet := set.New()
+			bSet := set.New()
+			for i, arr := range array {
+				if i == 0 {
+					for _, v := range arr.([]float64) {
+						aSet.Insert(v)
+					}
+					for _, v := range arr.([]float64) {
+						bSet.Insert(v)
+					}
 				}
-				tmp = append(tmp, v)
 			}
-			intersectArray = tmp
-		default:
-			tmp := []float64{}
-			firstArr := IntersectArray(array[0], array[1])
+			tmp := aSet.Intersection(bSet)
+			tmp2 := []float64{}
+			tmp.Do(func(i interface{}) { tmp2 = append(tmp2, i.(float64)) })
+			intersectArray = tmp2
 
+		default:
+			firstArr := IntersectArray(array[0], array[1])
+			tmp := []float64{}
 			for i := 0; i < len(array)-2; i++ {
 				func(arr1, arr2 []float64) {
-					m := make(map[float64]struct{})
+					aSet := set.New()
+					bSet := set.New()
 					for _, v := range arr1 {
-						m[v] = struct{}{}
+						aSet.Insert(v)
 					}
 					for _, v := range arr2 {
-						if _, ok := m[v]; !ok {
-							continue
-						}
-						tmp = append(tmp, v)
+						bSet.Insert(v)
 					}
+					fTmp := aSet.Intersection(bSet)
+					fTmp.Do(func(i interface{}) { tmp = append(tmp, i.(float64)) })
 				}(firstArr.([]float64), array[i+2].([]float64))
 			}
-
 			intersectArray = UniqueArray(tmp)
 		}
 	}
@@ -243,34 +256,31 @@ func DifferenceArray(array1, array2 interface{}) interface{} {
 
 	switch array1.(type) {
 	case []int:
-		m := make(map[int]struct{})
-		for _, v := range array2.([]int) {
-			m[v] = struct{}{}
-		}
-
-		tmp := []int{}
+		aSet := set.New()
+		bSet := set.New()
 		for _, v := range array1.([]int) {
-			if _, ok := m[v]; ok {
-				continue
-			}
-			tmp = append(tmp, v)
+			aSet.Insert(v)
 		}
-		differenceArray = tmp
+		for _, v := range array2.([]int) {
+			bSet.Insert(v)
+		}
+		tmp := aSet.Difference(bSet)
+		tmp2 := []int{}
+		tmp.Do(func(i interface{}) { tmp2 = append(tmp2, i.(int)) })
+		differenceArray = tmp2
 	case []float64:
-		m := make(map[float64]struct{})
-		for _, v := range array2.([]float64) {
-			m[v] = struct{}{}
-		}
-
-		tmp := []float64{}
+		aSet := set.New()
+		bSet := set.New()
 		for _, v := range array1.([]float64) {
-			if _, ok := m[v]; ok {
-				continue
-			}
-			tmp = append(tmp, v)
+			aSet.Insert(v)
 		}
-		differenceArray = tmp
-
+		for _, v := range array2.([]float64) {
+			bSet.Insert(v)
+		}
+		tmp := aSet.Difference(bSet)
+		tmp2 := []float64{}
+		tmp.Do(func(i interface{}) { tmp2 = append(tmp2, i.(float64)) })
+		differenceArray = tmp2
 	}
 
 	return differenceArray
