@@ -2,51 +2,47 @@ package file
 
 import (
 	"bufio"
-	"io/ioutil"
-	"log"
+	"fmt"
+	"io"
 	"os"
 )
 
 func Read(path string) string {
 	f, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer f.Close()
 
-	b, err := ioutil.ReadAll(f)
+	b, err := io.ReadAll(f)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	return string(b)
 }
 
-func Exists(path string) bool {
-	_, err := os.Stat(path)
-	return err == nil
-}
-
-func Write(path, data string) {
+func Write(path, data string) error {
 	f, err := os.Create(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer f.Close()
 
-	f.Write(([]byte)(data))
+	_, err = f.Write([]byte(data))
+	return err
 }
 
 func RemoveFile(path string) {
 	err := os.RemoveAll(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
 
 func MakeDir(path string) {
 	err := os.Mkdir(path, 0777)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
 
@@ -54,33 +50,19 @@ func RemoveDir(path string) {
 	RemoveFile(path)
 }
 
-func Rename(oldPath, newPath string) {
-	err := os.Rename(oldPath, newPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func Copy(srcPath, destPath string) {
-	err := os.Link(srcPath, destPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func ReadLines(path string) string {
-	var result string
+func ReadLine(path string) string {
+	var line string
 	f, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	s := bufio.NewScanner(f)
 
 	for s.Scan() {
-		result = s.Text()
+		line = s.Text()
 	}
 	if s.Err() != nil {
-		log.Fatal(s.Err())
+		panic(s.Err())
 	}
-	return result
+	return line
 }

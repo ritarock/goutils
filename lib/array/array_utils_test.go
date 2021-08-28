@@ -63,7 +63,7 @@ func TestReverseSortArray(t *testing.T) {
 	}
 }
 
-func TestUniqueArray(t *testing.T) {
+func TestUniueArray(t *testing.T) {
 	type args struct {
 		array interface{}
 	}
@@ -74,19 +74,19 @@ func TestUniqueArray(t *testing.T) {
 	}{
 		{
 			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5, 1, 2, 3}},
+			args: args{array: []int{1, 2, 3, 3, 4, 5}},
 			want: []int{1, 2, 3, 4, 5},
 		},
 		{
 			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5, 1, 2, 3}},
+			args: args{array: []float64{1, 2, 3, 3, 4, 5}},
 			want: []float64{1, 2, 3, 4, 5},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := UniqueArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("UniqueArray() = %v, want %v", got, tt.want)
+			if got := UniueArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UniueArray() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -161,13 +161,13 @@ func TestSumOfArray(t *testing.T) {
 	}{
 		{
 			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5}},
-			want: 15,
+			args: args{array: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			want: 55,
 		},
 		{
 			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5}},
-			want: 15.0,
+			args: args{array: []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			want: 55.0,
 		},
 	}
 	for _, tt := range tests {
@@ -190,157 +190,19 @@ func TestAvarageOfArray(t *testing.T) {
 	}{
 		{
 			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5}},
-			want: 3,
+			args: args{array: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			want: 5.5,
 		},
 		{
 			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5}},
-			want: 3.0,
+			args: args{array: []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			want: 5.5,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := AvarageOfArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("AvarageOfArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestUnionArray(t *testing.T) {
-	type args struct {
-		array []interface{}
-	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array pattern1",
-			args: args{
-				array: []interface{}{
-					[]int{1, 2, 3},
-					[]int{1, 2, 3, 4, 5},
-				},
-			},
-			want: []int{1, 2, 3, 4, 5},
-		},
-		{
-			name: "int array pattern2",
-			args: args{
-				array: []interface{}{
-					[]int{1, 2, 3},
-					[]int{1, 2, 3, 4, 5},
-					[]int{6, 7},
-					[]int{8},
-				},
-			},
-			want: []int{1, 2, 3, 4, 5, 6, 7, 8},
-		},
-		{
-			name: "float array",
-			args: args{
-				array: []interface{}{
-					[]float64{1, 2, 3},
-					[]float64{1, 2, 3, 4, 5},
-				},
-			},
-			want: []float64{1, 2, 3, 4, 5},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := UnionArray(tt.args.array...); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("UnionArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIntersectArray(t *testing.T) {
-	type args struct {
-		array []interface{}
-	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array pattern1",
-			args: args{
-				array: []interface{}{
-					[]int{1, 2, 3},
-					[]int{1, 2, 3, 4, 5},
-				},
-			},
-			want: []int{1, 2, 3},
-		},
-		{
-			name: "int array pattern2",
-			args: args{
-				array: []interface{}{
-					[]int{1, 2, 3},
-					[]int{1, 2, 3, 4, 5},
-					[]int{3, 4},
-					[]int{3},
-				},
-			},
-			want: []int{3},
-		},
-		{
-			name: "float array",
-			args: args{
-				array: []interface{}{
-					[]float64{1, 2, 3},
-					[]float64{1, 2, 3, 4, 5},
-				},
-			},
-			want: []float64{1, 2, 3},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := IntersectArray(tt.args.array...); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("IntersectArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestDifferenceArray(t *testing.T) {
-	type args struct {
-		array1 interface{}
-		array2 interface{}
-	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array pattern1",
-			args: args{
-				array1: []int{1, 2, 3},
-				array2: []int{2, 3},
-			},
-			want: []int{1},
-		},
-		{
-			name: "float array",
-			args: args{
-				array1: []float64{1, 2, 3},
-				array2: []float64{2, 3},
-			},
-			want: []float64{1},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := DifferenceArray(tt.args.array1, tt.args.array2); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DifferenceArray() = %v, want %v", got, tt.want)
 			}
 		})
 	}
