@@ -128,3 +128,49 @@ func TestToYYYY_MM_DD_HH_MM_SS(t *testing.T) {
 		})
 	}
 }
+
+func TestGetBeginningOfMonth(t *testing.T) {
+	now := time.Date(2021, 9, 1, 0, 0, 0, 0, time.Local)
+	nowTime = func() time.Time {
+		return now
+	}()
+	tests := []struct {
+		name string
+		want string
+	}{
+		{
+			name: "return 20210901",
+			want: "20210901",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetBeginningOfMonth(); got != tt.want {
+				t.Errorf("GetBeginningOfMonth() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetEndOfMonth(t *testing.T) {
+	now := time.Date(2021, 9, 1, 0, 0, 0, 0, time.Local)
+	nowTime = func() time.Time {
+		return now
+	}()
+	tests := []struct {
+		name string
+		want string
+	}{
+		{
+			name: "return 20210901",
+			want: "20210930",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetEndOfMonth(); got != tt.want {
+				t.Errorf("GetEndOfMonth() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

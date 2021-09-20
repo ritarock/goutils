@@ -5,9 +5,7 @@ import (
 	"time"
 )
 
-const LAYOUT_YYYYMMDD = "20060102"
-const LAYOUT_HHMM = "1504"
-const LAYOUT_YYYYMMDDHH = "20060102150405"
+var nowTime = time.Now()
 
 func ToYYYYMMDD(t time.Time) string {
 	return t.Format(LAYOUT_YYYYMMDD)
@@ -36,4 +34,17 @@ func ToYYYY_MM_DD_HH_MM_SS(t time.Time) string {
 		t.Format(LAYOUT_YYYYMMDDHH)[8:10],
 		t.Format(LAYOUT_YYYYMMDDHH)[10:12],
 		t.Format(LAYOUT_YYYYMMDDHH)[12:14])
+}
+
+func GetBeginningOfMonth() string {
+	now := nowTime
+	t := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.Local)
+	return t.Format(LAYOUT_YYYYMMDD)
+}
+
+func GetEndOfMonth() string {
+	now := nowTime
+	t := time.Date(now.Year(), now.Month()+1, 1, 0, 0, 0, 0, time.Local)
+	t = t.Add(-time.Minute)
+	return t.Format(LAYOUT_YYYYMMDD)
 }

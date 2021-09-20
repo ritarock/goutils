@@ -1,5 +1,5 @@
 PWD=$(shell pwd)
 test:
-	cd $(PWD)/lib/array;go test
-	cd $(PWD)/lib/date;go test
-	cd $(PWD)/lib/file;go test
+	cd $(PWD)/internal/array;go test
+	cd $(PWD)/internal/date;go test
+	cd $(PWD)/internal/file;go test
