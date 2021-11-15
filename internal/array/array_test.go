@@ -5,205 +5,140 @@ import (
 	"testing"
 )
 
-func TestSortArray(t *testing.T) {
-	type args struct {
-		array interface{}
+func TestSort(t *testing.T) {
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{5, 4, 3, 2, 1}},
-			want: []int{1, 2, 3, 4, 5},
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{5, 4, 3, 2, 1}},
-			want: []float64{1, 2, 3, 4, 5},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := SortArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SortArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := Sort([]int{5, 4, 3, 2, 1})
+		want := []int{1, 2, 3, 4, 5}
+		assert(t, got, want)
+	})
+	t.Run("float64", func(t *testing.T) {
+		got := Sort([]float64{5, 4, 3, 2, 1})
+		want := []float64{1, 2, 3, 4, 5}
+		assert(t, got, want)
+	})
 }
 
-func TestReverseSortArray(t *testing.T) {
-	type args struct {
-		array interface{}
+func TestReverseSort(t *testing.T) {
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5}},
-			want: []int{5, 4, 3, 2, 1},
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5}},
-			want: []float64{5, 4, 3, 2, 1},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ReverseSortArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ReverseSortArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := ReverseSort([]int{1, 2, 3, 4, 5})
+		want := []int{5, 4, 3, 2, 1}
+		assert(t, got, want)
+	})
+	t.Run("float64", func(t *testing.T) {
+		got := ReverseSort([]float64{1, 2, 3, 4, 5})
+		want := []float64{5, 4, 3, 2, 1}
+		assert(t, got, want)
+	})
 }
 
-func TestUniueArray(t *testing.T) {
-	type args struct {
-		array interface{}
+func TestUniqueArray(t *testing.T) {
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{1, 2, 3, 3, 4, 5}},
-			want: []int{1, 2, 3, 4, 5},
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{1, 2, 3, 3, 4, 5}},
-			want: []float64{1, 2, 3, 4, 5},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := UniueArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("UniueArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := Unique([]int{1, 1, 2, 3, 4, 5, 5})
+		want := []int{1, 2, 3, 4, 5}
+		assert(t, got, want)
+	})
+	t.Run("float", func(t *testing.T) {
+		got := Unique([]float64{1, 1, 2, 3, 4, 5, 5})
+		want := []float64{1, 2, 3, 4, 5}
+		assert(t, got, want)
+	})
+	t.Run("string", func(t *testing.T) {
+		got := Unique([]string{"a", "a", "b", "c", "d", "e", "e"})
+		want := []string{"a", "b", "c", "d", "e"}
+		assert(t, got, want)
+	})
 }
 
 func TestMaxOfArray(t *testing.T) {
-	type args struct {
-		array interface{}
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if got != want {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5}},
-			want: 5,
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5}},
-			want: 5.0,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := MaxOfArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("MaxOfArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := MaxOfArray([]int{1, 2, 3, 4, 5})
+		want := 5
+		assert(t, got, want)
+	})
+	t.Run("float", func(t *testing.T) {
+		got := MaxOfArray([]float64{1, 2, 3, 4, 5})
+		want := 5.0
+		assert(t, got, want)
+	})
 }
 
 func TestMinOfArray(t *testing.T) {
-	type args struct {
-		array interface{}
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if got != want {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5}},
-			want: 1,
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5}},
-			want: 1.0,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := MinOfArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("MinOfArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := MinOfArray([]int{1, 2, 3, 4, 5})
+		want := 1
+		assert(t, got, want)
+	})
+	t.Run("float", func(t *testing.T) {
+		got := MinOfArray([]float64{1, 2, 3, 4, 5})
+		want := 1.0
+		assert(t, got, want)
+	})
 }
 
 func TestSumOfArray(t *testing.T) {
-	type args struct {
-		array interface{}
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if got != want {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-			want: 55,
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-			want: 55.0,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := SumOfArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SumOfArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := SumOfArray([]int{1, 2, 3, 4, 5})
+		want := 15
+		assert(t, got, want)
+	})
+	t.Run("float", func(t *testing.T) {
+		got := SumOfArray([]float64{1, 2, 3, 4, 5})
+		want := 15.0
+		assert(t, got, want)
+	})
 }
 
 func TestAvarageOfArray(t *testing.T) {
-	type args struct {
-		array interface{}
+	assert := func(t *testing.T, got interface{}, want interface{}) {
+		t.Helper()
+		if got != want {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		{
-			name: "int array",
-			args: args{array: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-			want: 5.5,
-		},
-		{
-			name: "float array",
-			args: args{array: []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-			want: 5.5,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := AvarageOfArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("AvarageOfArray() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	t.Run("int", func(t *testing.T) {
+		got := AvarageOfArray([]int{1, 2, 3, 4, 5})
+		want := 3.0
+		assert(t, got, want)
+	})
+	t.Run("float", func(t *testing.T) {
+		got := AvarageOfArray([]float64{1, 2, 3, 4, 5})
+		want := 3.0
+		assert(t, got, want)
+	})
 }

@@ -1,10 +1,8 @@
 package array
 
-import (
-	"sort"
-)
+import "sort"
 
-func SortArray(array interface{}) interface{} {
+func Sort(array interface{}) interface{} {
 	switch arr := array.(type) {
 	case []int:
 		sort.Slice(arr, func(i, j int) bool {
@@ -18,7 +16,7 @@ func SortArray(array interface{}) interface{} {
 	return array
 }
 
-func ReverseSortArray(array interface{}) interface{} {
+func ReverseSort(array interface{}) interface{} {
 	switch arr := array.(type) {
 	case []int:
 		sort.Slice(arr, func(i, j int) bool {
@@ -32,7 +30,7 @@ func ReverseSortArray(array interface{}) interface{} {
 	return array
 }
 
-func UniueArray(array interface{}) interface{} {
+func Unique(array interface{}) interface{} {
 	var newArray interface{}
 
 	switch arr := array.(type) {
@@ -54,6 +52,16 @@ func UniueArray(array interface{}) interface{} {
 			if _, ok := m[v]; !ok {
 				m[v] = struct{}{}
 				newArray = append(newArray.([]float64), v)
+			}
+		}
+	case []string:
+		m := make(map[string]struct{})
+		newArray = make([]string, 0)
+
+		for _, v := range arr {
+			if _, ok := m[v]; !ok {
+				m[v] = struct{}{}
+				newArray = append(newArray.([]string), v)
 			}
 		}
 	}
