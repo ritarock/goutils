@@ -12,6 +12,8 @@ func Sort(array interface{}) interface{} {
 		sort.Slice(arr, func(i, j int) bool {
 			return arr[i] < arr[j]
 		})
+	default:
+		return array
 	}
 	return array
 }
@@ -26,6 +28,8 @@ func ReverseSort(array interface{}) interface{} {
 		sort.Slice(arr, func(i, j int) bool {
 			return arr[i] > arr[j]
 		})
+	default:
+		return array
 	}
 	return array
 }
@@ -65,7 +69,6 @@ func Unique(array interface{}) interface{} {
 			}
 		}
 	}
-
 	return newArray
 }
 
@@ -87,30 +90,34 @@ func MaxOfArray(array interface{}) interface{} {
 				max = v
 			}
 		}
+	default:
+		max = 0
 	}
 	return max
 }
 
 func MinOfArray(array interface{}) interface{} {
-	var min interface{}
+	var max interface{}
 
 	switch arr := array.(type) {
 	case []int:
-		min = arr[0]
+		max = arr[0]
 		for _, v := range arr {
-			if min.(int) > v {
-				min = v
+			if max.(int) > v {
+				max = v
 			}
 		}
 	case []float64:
-		min = arr[0]
+		max = arr[0]
 		for _, v := range arr {
-			if min.(float64) > v {
-				min = v
+			if max.(float64) > v {
+				max = v
 			}
 		}
+	default:
+		max = 0
 	}
-	return min
+	return max
 }
 
 func SumOfArray(array interface{}) interface{} {
@@ -129,6 +136,8 @@ func SumOfArray(array interface{}) interface{} {
 			s += v
 		}
 		sum = s
+	default:
+		sum = 0
 	}
 	return sum
 }
@@ -142,7 +151,8 @@ func AvarageOfArray(array interface{}) float64 {
 		avarage = float64(sumOfArray.(int)) / float64(len(arr))
 	case []float64:
 		avarage = float64(sumOfArray.(float64)) / float64(len(arr))
+	default:
+		avarage = 0
 	}
-
 	return avarage
 }

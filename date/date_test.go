@@ -23,24 +23,6 @@ func TestToYYYY_MM_DD(t *testing.T) {
 	}
 }
 
-func TestToHHMM(t *testing.T) {
-	got := ToHHMM(time.Date(2021, 1, 1, 0, 0, 0, 0, time.Local))
-	want := "0000"
-
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
-	}
-}
-
-func TestToYYYY_MM_DD_HH_MM_SS(t *testing.T) {
-	got := ToYYYY_MM_DD_HH_MM_SS(time.Date(2021, 1, 1, 0, 0, 0, 0, time.Local))
-	want := "2021-01-01-00-00-00"
-
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
-	}
-}
-
 func TestTimeSpan(t *testing.T) {
 	from := time.Date(2021, 1, 1, 0, 0, 0, 0, time.Local)
 	to := time.Date(2021, 1, 1, 1, 0, 0, 0, time.Local)

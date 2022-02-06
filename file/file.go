@@ -40,7 +40,7 @@ func ReadLine(path string) string {
 	return line
 }
 
-func Write(path string, data string) error {
+func Write(path, data string) error {
 	f, err := os.Create(path)
 	if err != nil {
 		panic(err)
