@@ -3,29 +3,28 @@ package file
 import (
 	"bufio"
 	"io"
-	"log"
 	"os"
 )
 
-func Read(path string) string {
+func Read(path string) (string, error) {
 	f, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer f.Close()
 
 	b, err := io.ReadAll(f)
 	if err != nil {
-		log.Println(err)
+		return "", err
 	}
-	return string(b)
+	return string(b), nil
 }
 
-func ReadLine(path string) string {
+func ReadLine(path string) (string, error) {
 	var line string
 	f, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer f.Close()
 
@@ -35,15 +34,15 @@ func ReadLine(path string) string {
 		line = s.Text()
 	}
 	if s.Err() != nil {
-		panic(s.Err())
+		return "", err
 	}
-	return line
+	return line, nil
 }
 
 func Write(path, data string) error {
 	f, err := os.Create(path)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer f.Close()
 

@@ -2,157 +2,71 @@ package array
 
 import "sort"
 
-func Sort(array interface{}) interface{} {
-	switch arr := array.(type) {
-	case []int:
-		sort.Slice(arr, func(i, j int) bool {
-			return arr[i] < arr[j]
-		})
-	case []float64:
-		sort.Slice(arr, func(i, j int) bool {
-			return arr[i] < arr[j]
-		})
-	default:
-		return array
-	}
+type Number interface {
+	~int | ~int32 | ~int64 | ~float32 | ~float64
+}
+
+func Sort[T Number](array []T) []T {
+	sort.Slice(array, func(i, j int) bool {
+		return array[i] < array[j]
+	})
 	return array
 }
 
-func ReverseSort(array interface{}) interface{} {
-	switch arr := array.(type) {
-	case []int:
-		sort.Slice(arr, func(i, j int) bool {
-			return arr[i] > arr[j]
-		})
-	case []float64:
-		sort.Slice(arr, func(i, j int) bool {
-			return arr[i] > arr[j]
-		})
-	default:
-		return array
-	}
+func ReverseSort[T Number](array []T) []T {
+	sort.Slice(array, func(i, j int) bool {
+		return array[j] < array[i]
+	})
 	return array
 }
 
-func Unique(array interface{}) interface{} {
-	var newArray interface{}
+func Unique[T Number | string](array []T) []T {
+	newArray := make([]T, 0)
+	m := make(map[T]struct{})
 
-	switch arr := array.(type) {
-	case []int:
-		m := make(map[int]struct{})
-		newArray = make([]int, 0)
-
-		for _, v := range arr {
-			if _, ok := m[v]; !ok {
-				m[v] = struct{}{}
-				newArray = append(newArray.([]int), v)
-			}
-		}
-	case []float64:
-		m := make(map[float64]struct{})
-		newArray = make([]float64, 0)
-
-		for _, v := range arr {
-			if _, ok := m[v]; !ok {
-				m[v] = struct{}{}
-				newArray = append(newArray.([]float64), v)
-			}
-		}
-	case []string:
-		m := make(map[string]struct{})
-		newArray = make([]string, 0)
-
-		for _, v := range arr {
-			if _, ok := m[v]; !ok {
-				m[v] = struct{}{}
-				newArray = append(newArray.([]string), v)
-			}
+	for _, v := range array {
+		if _, ok := m[v]; !ok {
+			m[v] = struct{}{}
+			newArray = append(newArray, v)
 		}
 	}
+
 	return newArray
 }
 
-func MaxOfArray(array interface{}) interface{} {
-	var max interface{}
-
-	switch arr := array.(type) {
-	case []int:
-		max = arr[0]
-		for _, v := range arr {
-			if max.(int) < v {
-				max = v
-			}
+func MaxOfArray[T Number](array []T) T {
+	max := array[0]
+	for _, v := range array {
+		if max < v {
+			max = v
 		}
-	case []float64:
-		max = arr[0]
-		for _, v := range arr {
-			if max.(float64) < v {
-				max = v
-			}
-		}
-	default:
-		max = 0
 	}
+
 	return max
 }
 
-func MinOfArray(array interface{}) interface{} {
-	var max interface{}
-
-	switch arr := array.(type) {
-	case []int:
-		max = arr[0]
-		for _, v := range arr {
-			if max.(int) > v {
-				max = v
-			}
+func MinOfArray[T Number](array []T) T {
+	min := array[0]
+	for _, v := range array {
+		if v < min {
+			min = v
 		}
-	case []float64:
-		max = arr[0]
-		for _, v := range arr {
-			if max.(float64) > v {
-				max = v
-			}
-		}
-	default:
-		max = 0
 	}
-	return max
+
+	return min
 }
 
-func SumOfArray(array interface{}) interface{} {
-	var sum interface{}
-
-	switch arr := array.(type) {
-	case []int:
-		var s int
-		for _, v := range arr {
-			s += v
-		}
-		sum = s
-	case []float64:
-		var s float64
-		for _, v := range arr {
-			s += v
-		}
-		sum = s
-	default:
-		sum = 0
+func SumOfArray[T Number](array []T) T {
+	var sum T
+	for _, v := range array {
+		sum += v
 	}
+
 	return sum
 }
 
-func AvarageOfArray(array interface{}) float64 {
-	var avarage float64
-	sumOfArray := SumOfArray(array)
+func AvarageOfArray[T Number](array []T) float64 {
+	sum := SumOfArray(array)
 
-	switch arr := array.(type) {
-	case []int:
-		avarage = float64(sumOfArray.(int)) / float64(len(arr))
-	case []float64:
-		avarage = float64(sumOfArray.(float64)) / float64(len(arr))
-	default:
-		avarage = 0
-	}
-	return avarage
+	return float64(sum) / float64(len(array))
 }

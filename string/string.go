@@ -20,7 +20,6 @@ func NumberToString(num int) string {
 
 func Capitalize(str string) string {
 	word := strings.Split(str, "")
-
 	for i, v := range word {
 		word[i] = strings.ToLower(v)
 	}
