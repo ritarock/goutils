@@ -3,21 +3,21 @@ package date
 import "time"
 
 const (
-	LAYOUT_YYYY = "2006"
-	LAYOUT_MM   = "01"
-	LAYOUT_DD   = "02"
+	FORMAT_YYYY = "2006"
+	FORMAT_MM   = "01"
+	FORMAT_DD   = "02"
 )
 
 var timeNow = time.Now()
 
 func ToYYYYMMDD(t time.Time) string {
-	layout := LAYOUT_YYYY + LAYOUT_MM + LAYOUT_DD
-	return t.Format(layout)
+	format := FORMAT_YYYY + FORMAT_MM + FORMAT_DD
+	return t.Format(format)
 }
 
 func ToYYYY_MM_DD(t time.Time) string {
-	layout := LAYOUT_YYYY + "-" + LAYOUT_MM + "-" + LAYOUT_DD
-	return t.Format(layout)
+	format := FORMAT_YYYY + "-" + FORMAT_MM + "-" + FORMAT_DD
+	return t.Format(format)
 }
 
 func TimeSpan(from, to time.Time) time.Duration {

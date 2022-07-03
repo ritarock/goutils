@@ -19,13 +19,13 @@ func assertError(t *testing.T, gotErr error, wantErr bool) {
 }
 
 func TestRead(t *testing.T) {
-	t.Run("exist read text", func(t *testing.T) {
+	t.Run("exists read file", func(t *testing.T) {
 		got, _ := Read("./read.txt")
 		want := "read text\n"
 		assertNoError(t, got, want)
 	})
 
-	t.Run("NOT exist read text", func(t *testing.T) {
+	t.Run("Not exists read file", func(t *testing.T) {
 		_, gotErr := Read("./read.tx")
 		wantErr := true
 		assertError(t, gotErr, wantErr)
@@ -33,13 +33,13 @@ func TestRead(t *testing.T) {
 }
 
 func TestReadLine(t *testing.T) {
-	t.Run("exist read text", func(t *testing.T) {
+	t.Run("exists read file", func(t *testing.T) {
 		got, _ := ReadLine("./read.txt")
 		want := "read text"
 		assertNoError(t, got, want)
 	})
 
-	t.Run("NOT exist read text", func(t *testing.T) {
+	t.Run("Not exists read file", func(t *testing.T) {
 		_, gotErr := ReadLine("./read.tx")
 		wantErr := true
 		assertError(t, gotErr, wantErr)

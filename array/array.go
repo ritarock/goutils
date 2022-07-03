@@ -15,7 +15,7 @@ func Sort[T Number](array []T) []T {
 
 func ReverseSort[T Number](array []T) []T {
 	sort.Slice(array, func(i, j int) bool {
-		return array[j] < array[i]
+		return array[i] > array[j]
 	})
 	return array
 }
@@ -30,7 +30,6 @@ func Unique[T Number | string](array []T) []T {
 			newArray = append(newArray, v)
 		}
 	}
-
 	return newArray
 }
 
@@ -41,7 +40,6 @@ func MaxOfArray[T Number](array []T) T {
 			max = v
 		}
 	}
-
 	return max
 }
 
@@ -52,7 +50,6 @@ func MinOfArray[T Number](array []T) T {
 			min = v
 		}
 	}
-
 	return min
 }
 
@@ -61,7 +58,6 @@ func SumOfArray[T Number](array []T) T {
 	for _, v := range array {
 		sum += v
 	}
-
 	return sum
 }
 
