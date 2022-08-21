@@ -21,8 +21,8 @@ func ReverseSort[T Number](array []T) []T {
 }
 
 func Unique[T Number | string](array []T) []T {
-	newArray := make([]T, 0)
-	m := make(map[T]struct{})
+	newArray := make([]T, 0, len(array))
+	m := make(map[T]struct{}, len((array)))
 
 	for _, v := range array {
 		if _, ok := m[v]; !ok {
