@@ -1,3 +1,3 @@
-module github.com/ritarock/goparts
+module github.com/ritarock/goutils
 
 go 1.19
