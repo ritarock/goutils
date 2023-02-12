@@ -76,8 +76,21 @@ func TestSumOfArray(t *testing.T) {
 	assertNumber(t, got, want)
 }
 
-func TestAvarageOfArray(t *testing.T) {
-	got := AvarageOfArray([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
-	var want float64 = 5.5
+func TestMeanOfArray(t *testing.T) {
+	got := MeanOfArray([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	want := float64(5.5)
 	assertNumber(t, got, want)
+}
+
+func TestMedian(t *testing.T) {
+	t.Run("odd", func(t *testing.T) {
+		got := MeanOfArray([]int{1, 2, 3, 4, 5})
+		want := float64(3)
+		assertNumber(t, got, want)
+	})
+	t.Run("even", func(t *testing.T) {
+		got := MeanOfArray([]int{1, 2, 3, 4, 5, 6})
+		want := float64(3.5)
+		assertNumber(t, got, want)
+	})
 }
