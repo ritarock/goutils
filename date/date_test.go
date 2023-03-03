@@ -64,3 +64,19 @@ func TestGetEndMonth(t *testing.T) {
 
 	assertTime(t, got, want)
 }
+
+func TestGetPast(t *testing.T) {
+	timeNow = setTestingTime()
+	got := GetPast(5)
+	want := time.Date(2022, 1, 5, 0, 0, 0, 0, time.Local)
+
+	assertTime(t, got, want)
+}
+
+func TestGetFuture(t *testing.T) {
+	timeNow = setTestingTime()
+	got := GetFuture(5)
+	want := time.Date(2022, 1, 15, 0, 0, 0, 0, time.Local)
+
+	assertTime(t, got, want)
+}
