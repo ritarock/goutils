@@ -2,6 +2,7 @@ package array
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -58,39 +59,53 @@ func TestUnique(t *testing.T) {
 	})
 }
 
-func TestMaxOfArray(t *testing.T) {
-	got := MaxOfArray([]int{1, 2, 3, 4, 5})
+func TestMax(t *testing.T) {
+	got := Max([]int{1, 2, 3, 4, 5})
 	want := 5
 	assertNumber(t, got, want)
 }
 
-func TestMinOfArray(t *testing.T) {
-	got := MinOfArray([]int{5, 4, 3, 2, 1})
+func TestMin(t *testing.T) {
+	got := Min([]int{5, 4, 3, 2, 1})
 	want := 1
 	assertNumber(t, got, want)
 }
 
-func TestSumOfArray(t *testing.T) {
-	got := SumOfArray([]int{1, 2, 3, 4, 5, 6, 7, 8, 9})
+func TestSum(t *testing.T) {
+	got := Sum([]int{1, 2, 3, 4, 5, 6, 7, 8, 9})
 	want := 45
 	assertNumber(t, got, want)
 }
 
-func TestMeanOfArray(t *testing.T) {
-	got := MeanOfArray([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+func TestMean(t *testing.T) {
+	got := Mean([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 	want := float64(5.5)
 	assertNumber(t, got, want)
 }
 
 func TestMedian(t *testing.T) {
 	t.Run("odd", func(t *testing.T) {
-		got := MeanOfArray([]int{1, 2, 3, 4, 5})
+		got := Mean([]int{1, 2, 3, 4, 5})
 		want := float64(3)
 		assertNumber(t, got, want)
 	})
 	t.Run("even", func(t *testing.T) {
-		got := MeanOfArray([]int{1, 2, 3, 4, 5, 6})
+		got := Mean([]int{1, 2, 3, 4, 5, 6})
 		want := float64(3.5)
 		assertNumber(t, got, want)
+	})
+}
+
+func TestMode(t *testing.T) {
+	t.Run("one mode", func(t *testing.T) {
+		got := Mode([]int{1, 2, 3, 3, 3, 4, 4, 5, 5})
+		want := []int{3}
+		assertDeepEqual(t, got, want)
+	})
+	t.Run("two mode", func(t *testing.T) {
+		got := Mode([]int{1, 2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 6})
+		want := []int{3, 6}
+		sort.Ints(got)
+		assertDeepEqual(t, got, want)
 	})
 }

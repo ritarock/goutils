@@ -10,40 +10,40 @@ type Number interface {
 	constraints.Integer | constraints.Float
 }
 
-func Sort[T Number](data []T) []T {
-	copied := make([]T, len(data))
-	copy(copied, data)
+func Sort[T Number](array []T) []T {
+	copied := make([]T, len(array))
+	copy(copied, array)
 	sort.Slice(copied, func(i, j int) bool {
 		return copied[i] < copied[j]
 	})
 	return copied
 }
 
-func ReverseSort[T Number](data []T) []T {
-	copied := make([]T, len(data))
-	copy(copied, data)
+func ReverseSort[T Number](array []T) []T {
+	copied := make([]T, len(array))
+	copy(copied, array)
 	sort.Slice(copied, func(i, j int) bool {
 		return copied[i] > copied[j]
 	})
 	return copied
 }
 
-func Unique[T Number | string](data []T) []T {
-	newdata := make([]T, 0, len(data))
-	m := make(map[T]struct{}, len((data)))
+func Unique[T Number | string](array []T) []T {
+	newArray := make([]T, 0, len(array))
+	m := make(map[T]struct{}, len(array))
 
-	for _, v := range data {
+	for _, v := range array {
 		if _, ok := m[v]; !ok {
 			m[v] = struct{}{}
-			newdata = append(newdata, v)
+			newArray = append(newArray, v)
 		}
 	}
-	return newdata
+	return newArray
 }
 
-func MaxOfArray[T Number](data []T) T {
-	max := data[0]
-	for _, v := range data {
+func Max[T Number](array []T) T {
+	max := array[0]
+	for _, v := range array {
 		if max < v {
 			max = v
 		}
@@ -51,9 +51,9 @@ func MaxOfArray[T Number](data []T) T {
 	return max
 }
 
-func MinOfArray[T Number](data []T) T {
-	min := data[0]
-	for _, v := range data {
+func Min[T Number](array []T) T {
+	min := array[0]
+	for _, v := range array {
 		if v < min {
 			min = v
 		}
@@ -61,30 +61,61 @@ func MinOfArray[T Number](data []T) T {
 	return min
 }
 
-func SumOfArray[T Number](data []T) T {
+func Sum[T Number](array []T) T {
 	var sum T
-	for _, v := range data {
+	for _, v := range array {
 		sum += v
 	}
 	return sum
 }
 
-func MeanOfArray[T Number](data []T) float64 {
-	sum := SumOfArray(data)
+func Mean[T Number](array []T) float64 {
+	sum := Sum(array)
 
-	return float64(sum) / float64(len(data))
+	return float64(sum) / float64(len(array))
 }
 
-func Median[T Number](data []T) float64 {
-	sorted := Sort(data)
-
-	if len(sorted) == 0 {
+func Median[T Number](array []T) float64 {
+	length := len(array)
+	if length == 0 {
 		return 0
 	}
 
-	if len(sorted)%2 == 0 {
-		return (float64(sorted[len(sorted)/2]) + float64(sorted[len(sorted)/2]-1)) / 2
+	sorted := Sort(array)
+
+	if length%2 == 0 {
+		return (float64(sorted[(length/2)-1]) + float64(sorted[length/2])) / 2
 	} else {
-		return float64(sorted[len(sorted)/2])
+		return float64(sorted[length/2])
 	}
+}
+
+func Mode[T Number](array []T) []T {
+	m := make(map[T]int, len(array))
+
+	for _, v := range array {
+		m[v] += 1
+	}
+
+	type kv struct {
+		key   T
+		value int
+	}
+	var kvs []kv
+	for k, v := range m {
+		kvs = append(kvs, kv{k, v})
+	}
+	sort.Slice(kvs, func(i, j int) bool {
+		return kvs[i].value > kvs[j].value
+	})
+	newArray := []T{kvs[0].key}
+
+	for _, kv := range kvs[1:] {
+		if kvs[0].value != kv.value {
+			break
+		}
+		newArray = append(newArray, kv.key)
+	}
+
+	return newArray
 }
