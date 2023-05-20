@@ -85,12 +85,12 @@ func TestMean(t *testing.T) {
 
 func TestMedian(t *testing.T) {
 	t.Run("odd", func(t *testing.T) {
-		got := Mean([]int{1, 2, 3, 4, 5})
+		got := Median([]int{1, 2, 3, 4, 5})
 		want := float64(3)
 		assertNumber(t, got, want)
 	})
 	t.Run("even", func(t *testing.T) {
-		got := Mean([]int{1, 2, 3, 4, 5, 6})
+		got := Median([]int{1, 2, 3, 4, 5, 6})
 		want := float64(3.5)
 		assertNumber(t, got, want)
 	})
