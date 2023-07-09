@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func assert[T Number](t *testing.T, got, want T) {
+func assert[T Number | bool](t *testing.T, got, want T) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got: %v, want: %v", got, want)
@@ -210,6 +210,82 @@ func TestMode(t *testing.T) {
 	for _, tc := range tests {
 		got := Mode(tc.args)
 		want := tc.want
+		got = Sort(got)
 		assertDeepEqual(t, want, got)
 	}
+}
+
+func TestSome(t *testing.T) {
+	tests := []struct {
+		name  string
+		array []int
+		f     func(int) bool
+		want  bool
+	}{
+		{
+			name:  "return true",
+			array: []int{1, 2, 3, 4, 5},
+			f: func(v int) bool {
+				return v == 3
+			},
+			want: true,
+		},
+		{
+			name:  "return false",
+			array: []int{1, 2, 3, 4, 5},
+			f: func(v int) bool {
+				return v == 6
+			},
+			want: false,
+		},
+	}
+	for _, tc := range tests {
+		got := Some(tc.array, tc.f)
+		want := tc.want
+		assert(t, got, want)
+	}
+}
+
+func TestEver(t *testing.T) {
+	tests := []struct {
+		name  string
+		array []int
+		f     func(int) bool
+		want  bool
+	}{
+		{
+			name:  "return true",
+			array: []int{1, 2, 3, 4, 5},
+			f: func(v int) bool {
+				return v > 0
+			},
+			want: true,
+		},
+		{
+			name:  "return false",
+			array: []int{1, 2, 3, 4, 5},
+			f: func(v int) bool {
+				return v > 3
+			},
+			want: false,
+		},
+	}
+	for _, tc := range tests {
+		got := Ever(tc.array, tc.f)
+		want := tc.want
+		assert(t, got, want)
+	}
+}
+
+func TestFilter(t *testing.T) {
+	t.Run("int slice", func(t *testing.T) {
+		got := Filter(
+			[]int{1, 2, 3, 4, 5},
+			func(v int) bool {
+				return v >= 3
+			},
+		)
+		want := []int{3, 4, 5}
+		assertDeepEqual(t, got, want)
+	})
 }

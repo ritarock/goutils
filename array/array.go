@@ -138,3 +138,37 @@ func Mode[T Number](array []T) []T {
 
 	return newArray
 }
+
+func Some[T Number | string](array []T, f func(T) bool) bool {
+	if len(array) == 0 {
+		return false
+	}
+	for _, v := range array {
+		if f(v) {
+			return true
+		}
+	}
+	return false
+}
+
+func Ever[T Number | string](array []T, f func(T) bool) bool {
+	if len(array) == 0 {
+		return false
+	}
+	for _, v := range array {
+		if !f(v) {
+			return false
+		}
+	}
+	return true
+}
+
+func Filter[T Number | string](array []T, f func(T) bool) []T {
+	result := []T{}
+	for _, v := range array {
+		if f(v) {
+			result = append(result, v)
+		}
+	}
+	return result
+}
