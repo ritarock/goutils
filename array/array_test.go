@@ -2,23 +2,10 @@ package array
 
 import (
 	"math"
-	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
-
-func assertDeepEqual[T Number](t *testing.T, got, want []T) {
-	t.Helper()
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got: %v, want: %v", got, want)
-	}
-}
-
-func assert[T Number | bool](t *testing.T, got, want T) {
-	t.Helper()
-	if got != want {
-		t.Errorf("got: %v, want: %v", got, want)
-	}
-}
 
 func TestSort(t *testing.T) {
 	tests := []struct {
@@ -36,7 +23,7 @@ func TestSort(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Sort(test.arg)
-			assertDeepEqual(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -57,7 +44,7 @@ func TestReverseSort(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := ReverseSort(test.arg)
-			assertDeepEqual(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -82,7 +69,7 @@ func TestMax(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Max(test.arg)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -107,7 +94,7 @@ func TestMin(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Min(test.arg)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -132,7 +119,7 @@ func TestSum(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Sum(test.arg)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -157,7 +144,7 @@ func TestMean(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Mean(test.arg)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -187,7 +174,7 @@ func TestMedian(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Median(test.arg)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -218,7 +205,7 @@ func TestMode(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got := Mode(test.arg)
 			got = Sort(got)
-			assertDeepEqual(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -243,7 +230,7 @@ func TestStandardDeviation(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got := StandardDeviation(test.arg)
 			got = math.Round((got * 10000000000)) / 10000000000
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -280,7 +267,7 @@ func TestSome(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Some(test.array, test.f)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -317,7 +304,7 @@ func TestEvery(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Every(test.array, test.f)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -346,7 +333,7 @@ func TestFilter(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Filter(test.array, test.f)
-			assertDeepEqual(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -366,7 +353,7 @@ func TestUnique(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Unique(test.arg)
-			assertDeepEqual(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -401,7 +388,7 @@ func TestInclude(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := Include(test.array, test.value)
-			assert(t, got, test.want)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }

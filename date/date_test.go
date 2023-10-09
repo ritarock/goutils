@@ -3,6 +3,8 @@ package date
 import (
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestToYYYYMMDD(t *testing.T) {
@@ -21,9 +23,7 @@ func TestToYYYYMMDD(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := ToYYYYMMDD(test.arg)
-			if got != test.want {
-				t.Errorf("got: %v, want: %v", got, test.want)
-			}
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -44,9 +44,7 @@ func TestToYYYY_MM_DD(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := ToYYYY_MM_DD(test.arg)
-			if got != test.want {
-				t.Errorf("got: %v, want: %v", got, test.want)
-			}
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -75,9 +73,7 @@ func TestTimeSpan(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := TimeSpan(test.from, test.to)
-			if got != test.want {
-				t.Errorf("got: %v, want: %v", got, test.want)
-			}
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -98,9 +94,7 @@ func TestGetBeginningOfMonth(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := GetBeginningOfMonth(test.arg)
-			if got != test.want {
-				t.Errorf("got: %v, want: %v", got, test.want)
-			}
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -121,9 +115,7 @@ func TestGetEndMonth(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := GetEndMonth(test.arg)
-			if got != test.want {
-				t.Errorf("got: %v, want: %v", got, test.want)
-			}
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
