@@ -370,3 +370,38 @@ func TestUnique(t *testing.T) {
 		})
 	}
 }
+
+func TestInclude(t *testing.T) {
+	tests := []struct {
+		name  string
+		array []int
+		value int
+		want  bool
+	}{
+		{
+			name:  "slice length = 0",
+			array: []int{},
+			value: 0,
+			want:  false,
+		},
+		{
+			name:  "include value",
+			array: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			value: 5,
+			want:  true,
+		},
+		{
+			name:  "not include value",
+			array: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+			value: 20,
+			want:  false,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := Include(test.array, test.value)
+			assert(t, got, test.want)
+		})
+	}
+}

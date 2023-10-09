@@ -205,3 +205,16 @@ func Unique[T constraints.Ordered](array []T) []T {
 	}
 	return result
 }
+
+func Include[T any](array []T, value T) bool {
+	if len(array) == 0 {
+		return false
+	}
+
+	m := make(map[any]struct{}, len(array))
+	for _, v := range array {
+		m[v] = struct{}{}
+	}
+	_, ok := m[value]
+	return ok
+}
