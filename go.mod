@@ -1,6 +1,6 @@
 module github.com/ritarock/goutils
 
-go 1.21.2
+go 1.21.6
 
 require (
 	github.com/stretchr/testify v1.8.4
