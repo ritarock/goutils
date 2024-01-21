@@ -103,3 +103,24 @@ func TestGetEndMonth(t *testing.T) {
 		assert.Equal(t, test.want, got)
 	}
 }
+
+func TestGetNextMonth(t *testing.T) {
+	tests := []struct {
+		arg  time.Time
+		want time.Time
+	}{
+		{
+			arg:  time.Date(2023, 5, 30, 0, 0, 0, 0, time.Local),
+			want: time.Date(2023, 6, 30, 0, 0, 0, 0, time.Local),
+		},
+		{
+			arg:  time.Date(2023, 5, 31, 0, 0, 0, 0, time.Local),
+			want: time.Date(2023, 6, 30, 0, 0, 0, 0, time.Local),
+		},
+	}
+
+	for _, test := range tests {
+		got := GetNextMonth(test.arg)
+		assert.Equal(t, test.want, got)
+	}
+}
