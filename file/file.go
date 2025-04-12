@@ -17,7 +17,7 @@ func Read(path string) (string, error) {
 		return "", err
 	}
 
-	return string(b), err
+	return string(b), nil
 }
 
 func Write(path, data string) error {

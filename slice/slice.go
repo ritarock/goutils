@@ -1,31 +1,30 @@
 package slice
 
 import (
-	"sort"
-
-	"golang.org/x/exp/constraints"
+	"cmp"
+	"slices"
 )
 
 type Number interface {
-	constraints.Integer | constraints.Float
+	~int | ~int8 | ~int16 | ~int32 | ~int64 |
+		~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr |
+		~float32 | ~float64
 }
 
-func Max[T Number](array []T) T {
+func Max[T cmp.Ordered](array []T) T {
 	if len(array) == 0 {
-		return 0
+		var zero T
+		return zero
 	}
-
-	sorted := ReverseSort(array)
-	return sorted[0]
+	return slices.Max(array)
 }
 
-func Min[T Number](array []T) T {
+func Min[T cmp.Ordered](array []T) T {
 	if len(array) == 0 {
-		return 0
+		var zero T
+		return zero
 	}
-
-	sorted := Sort(array)
-	return sorted[0]
+	return slices.Min(array)
 }
 
 func Sum[T Number](array []T) T {
@@ -41,7 +40,7 @@ func Sum[T Number](array []T) T {
 	return sum
 }
 
-func Mean[T Number](array []T) float64 {
+func Average[T Number](array []T) float64 {
 	if len(array) == 0 {
 		return 0
 	}
@@ -52,52 +51,40 @@ func Mean[T Number](array []T) float64 {
 }
 
 func Median[T Number](array []T) float64 {
-	length := len(array)
-	if length == 0 {
+	n := len(array)
+	if n == 0 {
 		return 0
 	}
 
 	sorted := Sort(array)
-	if length%2 == 0 {
-		a := sorted[(length/2)-1]
-		b := sorted[length/2]
-		return float64((a + b) / 2)
-	} else {
-		return float64(sorted[length/2])
+	if n%2 == 1 {
+		return float64(sorted[n/2])
 	}
+
+	a, b := float64(sorted[(n/2)-1]), float64(sorted[n/2])
+	return (a + b) / 2
 }
 
-func Mode[T Number](array []T) []T {
+func Mode[T cmp.Ordered](array []T) []T {
 	if len(array) == 0 {
-		return []T{}
+		return array
 	}
 
-	m := make(map[T]int, len(array))
+	freq := make(map[T]int)
+	maxCount := 0
 	for _, v := range array {
-		m[v]++
-	}
-
-	type kv struct {
-		key   T
-		value int
-	}
-
-	kvs := []kv{}
-	for k, v := range m {
-		kvs = append(kvs, kv{key: k, value: v})
-	}
-
-	sort.Slice(kvs, func(i, j int) bool {
-		return kvs[i].value > kvs[j].value
-	})
-
-	result := []T{kvs[0].key}
-	for _, kv := range kvs[1:] {
-		if kvs[0].value != kv.value {
-			break
+		freq[v]++
+		if freq[v] > maxCount {
+			maxCount = freq[v]
 		}
-		result = append(result, kv.key)
 	}
 
-	return Sort(result)
+	var modes []T
+	for v, count := range freq {
+		if count == maxCount {
+			modes = append(modes, v)
+		}
+	}
+
+	return Sort(modes)
 }

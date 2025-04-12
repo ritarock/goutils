@@ -7,40 +7,63 @@ import (
 )
 
 func TestSort(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name  string
 		array []int
 		want  []int
 	}{
 		{
+			name:  "succeed: empty slise",
+			array: []int{},
+			want:  []int{},
+		},
+		{
+			name:  "succeed",
 			array: []int{5, 4, 3, 2, 1},
 			want:  []int{1, 2, 3, 4, 5},
 		},
 	}
 
 	for _, test := range tests {
-		got := Sort(test.array)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := Sort(test.array)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestReverseSort(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name  string
 		array []int
 		want  []int
 	}{
 		{
+			name:  "succeed: empty slise",
+			array: []int{},
+			want:  []int{},
+		},
+		{
+			name:  "succeed",
 			array: []int{1, 2, 3, 4, 5},
 			want:  []int{5, 4, 3, 2, 1},
 		},
 	}
 
 	for _, test := range tests {
-		got := ReverseSort(test.array)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := ReverseSort(test.array)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestSome(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name  string
 		array []int
@@ -48,12 +71,15 @@ func TestSome(t *testing.T) {
 		want  bool
 	}{
 		{
-			name:  "array length == 0",
+			name:  "succeed: empty slise",
 			array: []int{},
-			want:  false,
+			f: func(i int) bool {
+				return i >= 3
+			},
+			want: false,
 		},
 		{
-			name:  "return true",
+			name:  "succeed: return true",
 			array: []int{1, 2, 3, 4, 5},
 			f: func(i int) bool {
 				return i >= 3
@@ -61,7 +87,7 @@ func TestSome(t *testing.T) {
 			want: true,
 		},
 		{
-			name:  "return false",
+			name:  "succeed: return false",
 			array: []int{1, 2, 3, 4, 5},
 			f: func(i int) bool {
 				return i == 0
@@ -71,12 +97,16 @@ func TestSome(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Some(test.array, test.f)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := Some(test.array, test.f)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestEvery(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name  string
 		array []int
@@ -84,35 +114,42 @@ func TestEvery(t *testing.T) {
 		want  bool
 	}{
 		{
-			name:  "array length == 0",
+			name:  "succeed: empty slise",
 			array: []int{},
-			want:  false,
+			f: func(i int) bool {
+				return i >= 3
+			},
+			want: false,
 		},
 		{
-			name:  "return true",
+			name:  "succeed: return true",
 			array: []int{1, 2, 3, 4, 5},
 			f: func(i int) bool {
-				return i > 0
+				return i >= 1
 			},
 			want: true,
 		},
 		{
-			name:  "return false",
+			name:  "succeed: return false",
 			array: []int{1, 2, 3, 4, 5},
 			f: func(i int) bool {
-				return i > 3
+				return i > 1
 			},
 			want: false,
 		},
 	}
 
 	for _, test := range tests {
-		got := Every(test.array, test.f)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := Every(test.array, test.f)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestFilter(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name  string
 		array []int
@@ -120,9 +157,12 @@ func TestFilter(t *testing.T) {
 		want  []int
 	}{
 		{
-			name:  "array length == 0",
+			name:  "succeed: empty slise",
 			array: []int{},
-			want:  []int{},
+			f: func(i int) bool {
+				return i >= 3
+			},
+			want: []int{},
 		},
 		{
 			name:  "succeed",
@@ -135,19 +175,23 @@ func TestFilter(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Filter(test.array, test.f)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := Filter(test.array, test.f)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestUnique(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name  string
 		array []int
 		want  []int
 	}{
 		{
-			name:  "array length == 0",
+			name:  "succeed: empty slise",
 			array: []int{},
 			want:  []int{},
 		},
@@ -159,12 +203,16 @@ func TestUnique(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Unique(test.array)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := Unique(test.array)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestInclude(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name  string
 		array []int
@@ -172,26 +220,24 @@ func TestInclude(t *testing.T) {
 		want  bool
 	}{
 		{
-			name:  "array length == 0",
+			name:  "succeed: empty slise",
 			array: []int{},
-			want:  false,
-		},
-		{
-			name:  "include value",
-			array: []int{1, 2, 3, 4, 5},
-			value: 5,
-			want:  true,
-		},
-		{
-			name:  "not include value",
-			array: []int{1, 2, 3, 4, 5},
 			value: 0,
 			want:  false,
+		},
+		{
+			name:  "succeed",
+			array: []int{1, 2, 3, 4, 5},
+			value: 3,
+			want:  true,
 		},
 	}
 
 	for _, test := range tests {
-		got := Include(test.array, test.value)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := Include(test.array, test.value)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }

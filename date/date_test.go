@@ -8,114 +8,152 @@ import (
 )
 
 func TestToYYYYMMDD(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name string
 		arg  time.Time
 		want string
 	}{
 		{
-			arg:  time.Date(2024, 10, 1, 0, 0, 0, 0, time.Local),
-			want: "20241001",
+			name: "succeed",
+			arg:  time.Date(2025, 10, 10, 0, 0, 0, 0, time.Local),
+			want: "20251010",
 		},
 	}
 
 	for _, test := range tests {
-		got := ToYYYYMMDD(test.arg)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := ToYYYYMMDD(test.arg)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestToYYYY_MM_DD(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name string
 		arg  time.Time
 		want string
 	}{
 		{
-			arg:  time.Date(2024, 10, 1, 0, 0, 0, 0, time.Local),
-			want: "2024-10-01",
+			name: "succeed",
+			arg:  time.Date(2025, 10, 10, 0, 0, 0, 0, time.Local),
+			want: "2025-10-10",
 		},
 	}
 
 	for _, test := range tests {
-		got := ToYYYY_MM_DD(test.arg)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := ToYYYY_MM_DD(test.arg)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
 func TestTimeSpan(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name string
 		from time.Time
 		to   time.Time
 		want time.Duration
 	}{
 		{
-			from: time.Date(2024, 10, 1, 0, 0, 0, 0, time.Local),
-			to:   time.Date(2024, 10, 1, 9, 0, 0, 0, time.Local),
+			name: "succeed: to < from",
+			from: time.Date(2025, 10, 1, 0, 0, 0, 0, time.Local),
+			to:   time.Date(2025, 10, 1, 9, 0, 0, 0, time.Local),
 			want: 9 * time.Hour,
 		},
 		{
-			from: time.Date(2024, 10, 1, 0, 0, 1, 0, time.Local),
-			to:   time.Date(2024, 10, 1, 0, 0, 0, 0, time.Local),
+			name: "succeed: to > from",
+			from: time.Date(2025, 10, 1, 0, 1, 0, 0, time.Local),
+			to:   time.Date(2025, 10, 1, 0, 0, 0, 0, time.Local),
 			want: 0,
 		},
 	}
 
 	for _, test := range tests {
-		got := TimeSpan(test.from, test.to)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := TimeSpan(test.from, test.to)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
-func TestGetBeginningOfMonth(t *testing.T) {
+func TestGetMonthStartDate(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name string
 		arg  time.Time
 		want time.Time
 	}{
 		{
-			arg:  time.Date(2024, 10, 10, 0, 0, 0, 0, time.Local),
-			want: time.Date(2024, 10, 1, 0, 0, 0, 0, time.Local),
+			name: "succeed",
+			arg:  time.Date(2025, 10, 10, 0, 0, 0, 0, time.Local),
+			want: time.Date(2025, 10, 1, 0, 0, 0, 0, time.Local),
 		},
 	}
 
 	for _, test := range tests {
-		got := GetBeginningOfMonth(test.arg)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := GetMonthStartDate(test.arg)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
-func TestGetEndOfMonth(t *testing.T) {
+func TestGetMonthEndDate(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name string
 		arg  time.Time
 		want time.Time
 	}{
 		{
-			arg:  time.Date(2024, 10, 10, 0, 0, 0, 0, time.Local),
-			want: time.Date(2024, 10, 31, 0, 0, 0, 0, time.Local),
+			name: "succeed",
+			arg:  time.Date(2025, 10, 10, 0, 0, 0, 0, time.Local),
+			want: time.Date(2025, 10, 31, 0, 0, 0, 0, time.Local),
 		},
 	}
 
 	for _, test := range tests {
-		got := GetEndOfMonth(test.arg)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := GetMonthEndDate(test.arg)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }
 
-func TestGetDayOfNextMonth(t *testing.T) {
+func TestGetNextMonthDate(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
+		name string
 		arg  time.Time
 		want time.Time
 	}{
 		{
-			arg:  time.Date(2024, 5, 30, 0, 0, 0, 0, time.Local),
-			want: time.Date(2024, 6, 30, 0, 0, 0, 0, time.Local),
+			name: "succeed: 30th to 30th of next month",
+			arg:  time.Date(2025, 5, 30, 0, 0, 0, 0, time.Local),
+			want: time.Date(2025, 6, 30, 0, 0, 0, 0, time.Local),
 		},
 		{
-			arg:  time.Date(2024, 5, 31, 0, 0, 0, 0, time.Local),
-			want: time.Date(2024, 6, 30, 0, 0, 0, 0, time.Local),
+			name: "succeed: 31st to 30th of next month",
+			arg:  time.Date(2025, 5, 31, 0, 0, 0, 0, time.Local),
+			want: time.Date(2025, 6, 30, 0, 0, 0, 0, time.Local),
 		},
 	}
 
 	for _, test := range tests {
-		got := GetDayOfNextMonth(test.arg)
-		assert.Equal(t, test.want, got)
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := GetNextMonthDate(test.arg)
+			assert.Equal(t, test.want, got)
+		})
 	}
 }

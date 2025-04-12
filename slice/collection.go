@@ -1,34 +1,33 @@
 package slice
 
 import (
-	"sort"
-
-	"golang.org/x/exp/constraints"
+	"cmp"
+	"slices"
 )
 
-func Sort[T constraints.Ordered](array []T) []T {
+func Sort[T cmp.Ordered](array []T) []T {
+	if len(array) == 0 {
+		return array
+	}
 	copied := make([]T, len(array))
 	copy(copied, array)
-
-	sort.Slice(copied, func(i, j int) bool {
-		return copied[i] < copied[j]
-	})
-
-	return copied
+	itr := slices.Values(copied)
+	return slices.Sorted(itr)
 }
 
-func ReverseSort[T constraints.Ordered](array []T) []T {
+func ReverseSort[T cmp.Ordered](array []T) []T {
+	if len(array) == 0 {
+		return array
+	}
 	copied := make([]T, len(array))
 	copy(copied, array)
-
-	sort.Slice(copied, func(i, j int) bool {
-		return copied[i] > copied[j]
-	})
-
-	return copied
+	itr := slices.Values(copied)
+	sorted := slices.Sorted(itr)
+	slices.Reverse(sorted)
+	return sorted
 }
 
-func Some[T constraints.Ordered](array []T, f func(T) bool) bool {
+func Some[T any](array []T, f func(T) bool) bool {
 	if len(array) == 0 {
 		return false
 	}
@@ -42,7 +41,7 @@ func Some[T constraints.Ordered](array []T, f func(T) bool) bool {
 	return false
 }
 
-func Every[T constraints.Ordered](array []T, f func(T) bool) bool {
+func Every[T any](array []T, f func(T) bool) bool {
 	if len(array) == 0 {
 		return false
 	}
@@ -56,9 +55,9 @@ func Every[T constraints.Ordered](array []T, f func(T) bool) bool {
 	return true
 }
 
-func Filter[T constraints.Ordered](array []T, f func(T) bool) []T {
+func Filter[T any](array []T, f func(T) bool) []T {
 	if len(array) == 0 {
-		return []T{}
+		return array
 	}
 
 	result := []T{}
@@ -71,12 +70,12 @@ func Filter[T constraints.Ordered](array []T, f func(T) bool) []T {
 	return result
 }
 
-func Unique[T constraints.Ordered](array []T) []T {
+func Unique[T any](array []T) []T {
 	if len(array) == 0 {
-		return []T{}
+		return array
 	}
 
-	m := make(map[T]struct{}, len(array))
+	m := make(map[any]struct{}, len(array))
 	result := []T{}
 
 	for _, v := range array {
@@ -89,7 +88,7 @@ func Unique[T constraints.Ordered](array []T) []T {
 	return result
 }
 
-func Include[T constraints.Ordered](array []T, value T) bool {
+func Include[T cmp.Ordered](array []T, value T) bool {
 	if len(array) == 0 {
 		return false
 	}

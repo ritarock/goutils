@@ -8,6 +8,17 @@ import (
 )
 
 func TestRead(t *testing.T) {
+	tmpFile, err := os.CreateTemp("./", "test_read_*.txt")
+	assert.NoError(t, err)
+	defer os.Remove(tmpFile.Name())
+
+	content := "This is test file"
+	_, err = tmpFile.WriteString(content)
+	assert.NoError(t, err)
+
+	err = tmpFile.Close()
+	assert.NoError(t, err)
+
 	tests := []struct {
 		name     string
 		path     string
@@ -15,14 +26,14 @@ func TestRead(t *testing.T) {
 		hasError bool
 	}{
 		{
-			name:     "exists read file",
-			path:     "../testdata/test.txt",
-			want:     "This is test file.\n",
+			name:     "succeed",
+			path:     tmpFile.Name(),
+			want:     "This is test file",
 			hasError: false,
 		},
 		{
-			name:     "not exists read file",
-			path:     "../testdata/test.tx",
+			name:     "failed: not exists read file",
+			path:     "tmpFile",
 			hasError: true,
 		},
 	}
@@ -39,19 +50,20 @@ func TestRead(t *testing.T) {
 }
 
 func TestWrite(t *testing.T) {
-	tmp, err := os.CreateTemp("./", "testfile")
-	if err != nil {
-		t.Fatalf("failed TestWrite")
-	}
-	defer os.Remove(tmp.Name())
-	defer tmp.Close()
+	tmpFile, err := os.CreateTemp("./", "test_read_*.txt")
+	assert.NoError(t, err)
+	defer os.Remove(tmpFile.Name())
+	err = tmpFile.Close()
+	assert.NoError(t, err)
 
 	tests := []struct {
+		name string
 		path string
 		data string
 	}{
 		{
-			path: tmp.Name(),
+			name: "succeed",
+			path: tmpFile.Name(),
 			data: "",
 		},
 	}

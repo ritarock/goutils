@@ -1,11 +1,8 @@
 module github.com/ritarock/goutils
 
-go 1.23.1
+go 1.24.2
 
-require (
-	github.com/stretchr/testify v1.9.0
-	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
-)
+require github.com/stretchr/testify v1.10.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
