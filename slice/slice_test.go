@@ -169,7 +169,7 @@ func TestMode(t *testing.T) {
 			want:  []int{1},
 		},
 		{
-			name:  "succeed: return one value",
+			name:  "succeed: return two value",
 			array: []int{1, 1, 2, 3, 4, 5, 6, 7, 7},
 			want:  []int{1, 7},
 		},
